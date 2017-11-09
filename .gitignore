@@ -1,0 +1,14 @@
+# project files
+.idea/
+.iml
+
+# latex intermediate files
+*.aux
+*.dvi
+*.log
+*.out
+*.ps
+*.@@@
+*.bbl
+*.blg
+*.synctex.gz
