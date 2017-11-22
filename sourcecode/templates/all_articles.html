@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include "head.html" %}
+	<title>Viewing All Posts</title>
+</head>
+<body class="blue lighten-5">
+	{% include "navbar.html" %}
+	<div class="container">
+		<div class="row card blue">
+			<div class="col s12 center-align">
+				<h4 class="white-text">All Articles</h4>
+				<p>Sorted by {{ method }}</p>
+			</div>
+		</div>
+		{% for row in results %}
+			<div class="row card blue lighten-3">
+				<div class="col s4">
+					<b>Post: #{{ row["id"] }}</b>
+				</div>
+				<div class="col s4 center-align">
+					<b>Date: {{ row["posted"] }}</b>
+				</div>
+				<div class="col s4 right-align">
+					<b>Poster: {{ row["author"] }}</b>
+				</div>
+				<div class="col s12">
+					<div class="divider"></div>
+					<h4>{{ row["title"] }}</h4>
+					<p>{{ row["content"] }}</p>
+					<div class="divider"></div>
+				</div>
+				<div class="col s6">
+					<a href="#" title="Not implemented yet">Visit comments</a>
+				</div>
+				<div class="col s6 right-align">
+					<span title="&uArr; {{ row["votes_up"] }} &dArr; {{ row["votes_down"] }}">
+						Rating: {{ row["votes_up"] - row["votes_down"] }}</span>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</body>
+</html>

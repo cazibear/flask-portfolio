@@ -1,0 +1,13 @@
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<script src="{{ url_for("static", filename="js/jquery-3.2.1.min.js") }}"></script>
+<script src="{{ url_for("static", filename="js/materialize.min.js") }}"></script>
+<script>
+	$( document ).ready(function(){
+		$(".button-collapse").sideNav();
+	});
+</script>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for("static", filename="css/materialize.min.css") }}">
+<link rel="stylesheet" href="{{ url_for("static", filename="css/custom.css") }}">

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include "head.html" %}
+	<title>Post Article</title>
+</head>
+<body>
+	{% include "navbar.html" %}
+	<div class="container">
+		<div class="row card blue">
+			<div class="col s12 center-align">
+				<h4 class="white-text">Posting Article</h4>
+			</div>
+		</div>
+		<div class="row">
+			<form action="{{ url_for("post_article") }}" method="post">
+				<div class="row">
+					<div class="input-field col s12">
+						<input type="text" id="title" name="title" class="validate" required>
+						<label for="title">Title</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<textarea type="text" id="content" name="content" class="materialize-textarea" required></textarea>
+						<label for="content">Content</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-field col s12">
+						<input type="text" id="author" name="author" class="validate" required>
+						<label for="author">author (REMOVE)</label>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s6 center">
+						<button class="btn" type="submit">Submit</button>
+					</div>
+					<div class="col s6 center">
+						<button class="btn" type="reset">Reset</button>
+					</div>
+				</div>
+			</form>
+			{% for message in get_flashed_messages() %}
+				<div class="row">
+					<div class="card">
+						<div class="card-content">
+							<p>{{ message }}</p>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+</body>
+</html>

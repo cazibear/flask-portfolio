@@ -1,2 +1,0 @@
-INSERT INTO posts (title, author, subject, tags, votes_up, votes_down) VALUES ('First article', 'admin', 'Testing', 'test,post', 3, 1);
-INSERT INTO posts (title, author, subject, tags, votes_up, votes_down) VALUES ('Second article', 'admin', 'Another test...', 'test,testing', 5, 2);
