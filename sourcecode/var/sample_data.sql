@@ -10,3 +10,5 @@ INSERT INTO posts (
 	('Second article', 'admin', 1, 'Another test...', 50, 20),
 	('Third article', 'admin', 1, 'test the third', 40, 15)
 ;
+
+INSERT INTO users (username, password) VALUES ("test", '$2b$12$YRDr54UNqpPs.KmAWumHweVtn7CB.zh45AiT0dZ81tgdVikcDZJ5i')

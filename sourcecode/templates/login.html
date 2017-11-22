@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	{% include "head.html" %}
-	<title>Post Article</title>
+	<title>Login</title>
 </head>
 <body class="blue lighten-5">
 	{% include "navbar.html" %}
@@ -17,13 +17,13 @@
 				<div class="row">
 					<div class="input-field col s12">
 						<input type="text" id="title" name="title" class="validate" required>
-						<label for="title">Title</label>
+						<label for="title">Username</label>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s12">
 						<textarea type="text" id="content" name="content" class="materialize-textarea" required></textarea>
-						<label for="content">Content</label>
+						<label for="content">Password</label>
 					</div>
 				</div>
 				<div class="row">
@@ -45,6 +45,7 @@
 				<div class="row">
 					<div class="card">
 						<div class="card-content">
+							<h5>Message</h5>
 							<p>{{ message }}</p>
 						</div>
 					</div>

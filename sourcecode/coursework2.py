@@ -1,4 +1,7 @@
-from flask import Flask, render_template, g, request, redirect, url_for, flash
+from flask import Flask, render_template, g, request, redirect, url_for, flash, session
+from functools import wraps
+from __future__ import print_function
+import bcrypt
 import sqlite3
 
 app = Flask(__name__)
@@ -38,6 +41,27 @@ def init_db():
 		db.commit()
 
 
+def check_login(username, password):
+	db = get_db()
+	sql = "SELECT password FROM users WHERE username = ?;"
+	result = db.cursor().execute(sql, username)
+	
+	if password == bcrypt.hashpw(result, result):
+		return True
+	else:
+		return False
+
+
+def requires_login(f):
+	@wraps(f)
+	def decorated(*args, **kwargs):
+		status = session.get("logged_in", False)
+		if not status:
+			return redirect(url_for(".root"))
+		return f(*args, **kwargs)
+	return decorated
+
+
 @app.route('/')
 def root():
 	# displays the 10 most recent posts ordered by id
@@ -48,7 +72,26 @@ def root():
 	return render_template("index.html", results=result)
 
 
+@app.route("/login/", methods=["POST", "GET"])
+def login():
+	session["logged_in"] = False
+	if request.method == "POST":
+		username = request.form["username"]
+		password = request.form["password"]
+		check = check_login(username, password)
+		if check:
+			session["logged_in"] = True
+			flash("Logged in")
+			redirect(url_for("root"))
+		else:
+			flash("Username or password invalid")
+			render_template("login.html")
+	else:
+		render_template("login.html")
+
+
 @app.route("/post/", methods=["POST", "GET"])
+@requires_login
 def post_article():
 	if request.method == "POST":
 		print("post")
