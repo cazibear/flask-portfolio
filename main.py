@@ -1,6 +1,6 @@
+from __future__ import print_function
 from flask import Flask, render_template, g, request, redirect, url_for, flash, session
 from functools import wraps
-from __future__ import print_function
 import bcrypt
 import sqlite3
 
@@ -14,7 +14,7 @@ def get_db():
 	db = getattr(g, "db", None)
 	if db is None:
 		db = sqlite3.connect(db_location)
-		db.row_factory = sqlite3.Row  # allows for accessing columns by name and not just index
+		db.row_factory = sqlite3.Row  # allows for accessing columns by name
 		g.db = db
 	return db
 
@@ -104,10 +104,8 @@ def post_article():
 			db = get_db()
 			db.cursor().execute(sql, (form_title, form_content, form_author))
 			db.commit()
-			print("success")
 			flash("Article successfully posted!")
 		except sqlite3.Error as e:
-			print("fail")
 			flash(e)
 		
 		return render_template("post_article.html")
