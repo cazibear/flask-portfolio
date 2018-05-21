@@ -1,14 +1,4 @@
-# project files
 .idea/
-.iml
+__pycache__/
 
-# latex intermediate files
-*.aux
-*.dvi
-*.log
-*.out
-*.ps
-*.@@@
-*.bbl
-*.blg
-*.synctex.gz
+var/data.db
