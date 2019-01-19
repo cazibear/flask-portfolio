@@ -9,49 +9,51 @@
 	<div class="container">
 		<div class="row card blue">
 			<div class="col s12 center-align">
-				<h4 class="white-text">Posting Article</h4>
+				<h4 class="white-text">Login Page</h4>
 			</div>
 		</div>
-		<div class="row">
-			<form action="{{ url_for("post_article") }}" method="post">
-				<div class="row">
-					<div class="input-field col s12">
-						<input type="text" id="title" name="title" class="validate" required>
-						<label for="title">Username</label>
+		{% for message in get_flashed_messages() %}
+			<div class="row">
+				<div class="card">
+					<div class="card-content">
+						<p>{{ message }}</p>
 					</div>
 				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<textarea type="text" id="content" name="content" class="materialize-textarea" required></textarea>
-						<label for="content">Password</label>
-					</div>
+			</div>
+		{% endfor %}
+		<form action="{{ url_for('login') }}" method="POST">
+			<div class="row">
+				<div class="input-field col s12">
+					<input type="text"
+						id="username"
+						name="username"
+						class="validate"
+						required>
+					<label for="username">Username</label>
 				</div>
-				<div class="row">
-					<div class="input-field col s12">
-						<input type="text" id="author" name="author" class="validate" required>
-						<label for="author">Author</label>
-					</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s12">
+					<input type="password"
+						id="password"
+						name="password"
+						class="validate"
+						required>
+					<label for="password">Password</label>
 				</div>
-				<div class="row">
-					<div class="col s6 center">
-						<button class="btn" type="submit">Submit</button>
-					</div>
-					<div class="col s6 center">
-						<button class="btn" type="reset">Reset</button>
-					</div>
+			</div>
+			<div class="row">
+				<div class="col s4 center">
+					<button class="btn" type="submit">Submit</button>
 				</div>
-			</form>
-			{% for message in get_flashed_messages() %}
-				<div class="row">
-					<div class="card">
-						<div class="card-content">
-							<h5>Message</h5>
-							<p>{{ message }}</p>
-						</div>
-					</div>
+				<div class="col s4 center">
+					<a href="{{ url_for('register') }}" class="btn">Register</a>
 				</div>
-			{% endfor %}
-		</div>
+				<div class="col s4 center">
+					<button class="btn" type="reset">Reset</button>
+				</div>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

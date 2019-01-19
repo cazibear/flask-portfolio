@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
 	{% include "head.html" %}
-	<title>Index</title>
+	<title>Conversation Street</title>
 </head>
 <body class="blue lighten-5">
 	{% include "navbar.html" %}
 	<div class="container">
+		{% for message in get_flashed_messages() %}
+		<div class="row card">
+			<div class="col s10">
+				<p>{{ message }}</p>
+			</div>
+		</div>
+		{% endfor %}
 		<div class="row card blue">
 			<div class="col s12 center-align">
 				<h4 class="white-text">Most Recent Articles</h4>
@@ -33,8 +40,8 @@
 				<a href="#" title="Not implemented yet">Visit comments</a>
 			</div>
 			<div class="col s6 right-align">
-				<span title="&uArr; {{ row["votes_up"] }} &dArr; {{ row["votes_down"] }}">
-					Rating: {{ row["votes_up"] - row["votes_down"] }}</span>
+				<span title="&uArr; {{ row['votes_up'] }} &dArr; {{ row['votes_down'] }}">
+					Rating: {{ row['votes_up'] - row['votes_down'] }}</span>
 			</div>
 		</div>
 		{% endfor %}

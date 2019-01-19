@@ -1,24 +1,58 @@
 <header>
-	<div class="navbar-fixed">
-		<nav class="blue darken-4">
-			<div class="nav-wrapper container">
-				<a href="#" class="brand-logo">Conversation Street</a>
-				<a href="#" data-activates="nav-mobile" class="button-collapse">
-					<i class="material-icons">menu</i>
+	<div class='navbar-fixed'>
+		<nav class='blue darken-4'>
+			<div class='nav-wrapper container'>
+				<a href='#' class='brand-logo'>Conversation Street</a>
+				<a href='#' data-activates='nav-mobile' class='button-collapse'>
+					<i class='material-icons'>menu</i>
 				</a>
-				<ul class="right hide-on-med-and-down">
-					<li><a href="{{ url_for("root") }}"><i class="material-icons">home</i></a></li>
-					<li><a href="{{ url_for("post_article") }}">Post Article</a></li>
-					<li><a href="{{ url_for("all_articles") }}">All Articles</a></li>
-					<li><a href="#">Login</a></li>
+				<ul class='right hide-on-med-and-down'>
+					<li>
+						<a href='{{ url_for("root") }}'>
+							<i class='material-icons'>home</i>
+						</a>
+					</li>
+					{% if session.get("logged_in", False) %}
+					<li><a href='{{ url_for("post_article") }}'>Post Article</a></li>
+					{% endif %}
+					<li><a href='{{ url_for("all_articles") }}'>All Articles</a></li>
+					<li>
+						{% if session.get("logged_in", False) %}
+						<a href='{{ url_for("logout") }}'>Logout</a>
+						{% else %}
+						<a href='{{ url_for("login") }}'>Login / Register</a>
+						{% endif %}
+					</li>
 				</ul>
 			</div>
 		</nav>
 	</div>
-	<ul id="nav-mobile" class="side-nav blue darken-4 right">
-		<li><a class="white-text" href="{{ url_for("post_article") }}"><i class="white-text material-icons">add</i>Post Article</a></li>
-		<li><a class="white-text" href="{{ url_for("all_articles") }}"><i class="white-text material-icons">list</i>All Articles</a></li>
-		<li><a class="white-text" href="#"><i class="white-text material-icons">account_circle</i>Login</a></li>
-		<li><a class="white-text" href="{{ url_for("root") }}"><i class="white-text material-icons">home</i> Home</a></li>
+	<ul id='nav-mobile' class='side-nav blue darken-4 right'>
+		<li>
+			<a class='white-text' href='{{ url_for("root") }}'>
+				<i class='white-text material-icons'>home</i> Home
+			</a>
+		</li>
+		{% if session.get("logged_in", False) %}
+		<li>
+			<a class='white-text' href='{{ url_for("post_article") }}'>
+				<i class='white-text material-icons'>add</i> Post Article
+			</a>
+		</li>
+		{% endif %}
+		<li>
+			<a class='white-text' href='{{ url_for("all_articles") }}'>
+				<i class='white-text material-icons'>list</i>All Articles</a>
+		</li>
+		<li>
+			{% if session.get("logged_in", False) %}
+			<a href='{{ url_for("logout") }}' class='white-text'>Logout
+			{% else %}
+			<a href='{{ url_for("login") }}' class='white-text'>Login / Register
+			{% endif %}
+				<i class='white-text material-icons'>account_circle</i> 
+			</a>
+		</li>
+		
 	</ul>
 </header>

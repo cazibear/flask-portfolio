@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% include "head.html" %}
+	<title>Register</title>
+</head>
+<body class="blue lighten-5">
+	{% include "navbar.html" %}
+	<div class="container">
+		{% for message in get_flashed_messages() %}
+		<div class="row card">
+			<div class="col s10">
+				<p>{{ message }}</p>
+			</div>
+		</div>
+		{% endfor %}
+		<div class="row card blue">
+			<div class="col s12 center-align">
+				<h4 class="white-text">Create a New Account</h4>
+			</div>
+		</div>
+		<div class="row">
+			<form action="{{ url_for('register') }}" method="POST">
+				<div class="row">
+					<div class="input-field col s12">
+						<input type="text" id="username" name="username" class="validate" required>
+						<label for="username">Username</label>
+					</div>
+				</div>
+				<div class="row">
+						<div class="input-field col s12">
+							<input type="password" id="password" name="password" class="validate" required>
+							<label for="password">Password</label>
+						</div>
+				</div>
+				<div class="row">
+					<div class="col s6 center">
+						<button class="btn" type="submit">Submit</button>
+					</div>
+					<div class="col s6 center">
+						<button class="btn" type="reset">Reset</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</body>
+</html>
