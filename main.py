@@ -28,21 +28,6 @@ def close_db(exception):
 		db.close()
 
 
-def init_db():
-	""" Initialises the database with tables and data"""
-	with app.app_context():
-		db = get_db()
-		
-		# creating the database structure
-		with app.open_resource("var/schema.sql", mode="r") as f:
-			db.executescript(f.read())
-		
-		# inserting some test data
-		with app.open_resource("var/sample_data.sql", mode="r") as f:
-			db.executescript(f.read())
-		db.commit()
-
-
 def check_login(username, password):
 	c = get_db().cursor()
 	sql = "SELECT * FROM users WHERE username = ?;"
