@@ -2,7 +2,7 @@ INSERT INTO posts (
 	title,
 	author_id,
 	content
-) VALUES 
+) VALUES
 	('First article',  1, 'Testing'),
 	('Second article', 1, 'Another test...'),
 	('Third article',  1, 'test the third')
@@ -13,6 +13,7 @@ INSERT INTO users (
 	display_name,
 	password
 ) VALUES
+    ('admin', 'administrator', '$2b$12$HoHzEt8QuFM1VcB6cYHvNOeN6CkM55aiDfW7WJYr/3aWMGn3j9r7O'),
 	('alan', 'alan', '$2b$12$a.XxOkaz2AdBAvUM85.a2e3nL9e5IVlLIzHL4Scsy9bwz6PJi.YLe'),
 	('jane', 'jane', '$2b$12$3qPMGVOAs3cCzKDqfoTxm.6igP8EttjzRFy/3p5fSUocDfGGfrIHq'),
 	('dave', 'dave', '$2b$12$uE3yN0yWnNVNGxwmJIVale9f1FaU/X5hDz4DedFknawXPMi7XDF3u'),
