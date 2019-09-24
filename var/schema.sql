@@ -17,11 +17,8 @@ CREATE TABLE users (
 	dob          TEXT
 );
 
-DROP VIEW IF EXISTS view_home;
-CREATE VIEW view_home AS
+DROP VIEW IF EXISTS view_posts;
+CREATE VIEW view_posts AS
     SELECT p.post_id, p.posted, p.title, p.content, u.display_name
       FROM posts p
-INNER JOIN users u on p.author_id == u.user_id
-  ORDER BY p.posted
-     LIMIT 10;
-
+INNER JOIN users u on p.author_id == u.user_id;
