@@ -1,4 +1,8 @@
+# IDE
 .idea/
 __pycache__/
+*.code-workspace
 
+# Database
 var/data.db
+var/data.db-journal
