@@ -2,6 +2,8 @@
 
 A small webapp built as a sort of portfolio piece
 
+Before starting the app, it is required to run init_db.py to initially create the database.
+
 ## Features
 
 Working features:
