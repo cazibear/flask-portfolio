@@ -29,6 +29,7 @@ def close_db(exception):
 
 
 def create_account(username, password):
+	""" Creating a user account in the database """
 	password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
 	try:
@@ -43,6 +44,7 @@ def create_account(username, password):
 
 
 def requires_login(f):
+	""" checking that the user is logged in or not """
 	@wraps(f)
 	def decorated(*args, **kwargs):
 		status = session.get("logged_in")
@@ -60,7 +62,6 @@ def root():
 	db = get_db()
 	sql = "SELECT * FROM view_posts ORDER BY post_id DESC LIMIT 10;"
 	result = db.cursor().execute(sql)
-	print(result)
 
 	return render_template("index.html", results=result)
 
@@ -86,12 +87,12 @@ def login():
 		if bcrypt.checkpw(
 				request.form["password"].encode("utf-8"),
 				result["password"].encode("utf-8")):
-			
+			# if the password in the database matches the user's input, log them in
 			session["logged_in"] = result["user_id"]
 			flash("Logged in successfully")
 			return redirect(url_for("root"))
 		else:
-			# if unsuccessful
+			# if unsuccessful send them back to the login
 			flash("Username or password invalid")
 			return render_template("login.html")
 	else:
@@ -113,7 +114,6 @@ def register():
 		# get user details
 		username = request.form["username"]
 		password = request.form["password"]
-		print(repr(username), repr(password))
 		if "" in [username, password]:
 			# if any of the form is empty
 			flash("Please fill in the required fields.")
@@ -134,28 +134,33 @@ def register():
 @app.route("/post/", methods=["POST", "GET"])
 @requires_login
 def post_article():
+	""" user creating an article """
 	if request.method == "POST":
+		# if post, handle the request
 		form_title = request.form["title"]
 		form_content = request.form["content"]
 		
 		sql = "INSERT INTO posts (title, author_id, content) VALUES (?, ?, ?)"
 		try:
+			# try saving the post to the database
 			db = get_db()
 			db.execute(sql, (form_title, session["logged_in"], form_content))
 			db.commit()
 			flash("Article successfully posted!")
 		except sqlite3.Error as e:
+			# if something goes wrong with the database
 			flash(e)
 		
 		return render_template("post_article.html")
 	else:
+		# otherwise just show the form
 		return render_template("post_article.html")
 
 
 @app.route("/articles/all/")
 @app.route("/articles/all/<string:sort>")
 def all_articles(sort=""):
-	# displays all of the posts defaulting to sorting by time
+	""" displays all of the posts, defaulting to sorting by time """
 	
 	method = "post_id"  # sorting method
 	if sort.lower() == "title":
