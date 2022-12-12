@@ -28,20 +28,6 @@ def close_db(exception):
 		db.close()
 
 
-def check_login(username, password):
-	c = get_db().cursor()
-	sql = "SELECT * FROM users WHERE username = ?;"
-	c.execute(sql, (username,))
-	result = c.fetchone()
-
-	if result["password"] == bcrypt.hashpw(
-			password.encode("utf-8"),
-			result["password"]):
-		return True
-	else:
-		return False
-
-
 def create_account(username, password):
 	password = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
 
@@ -59,7 +45,7 @@ def create_account(username, password):
 def requires_login(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
-		status = session.get("logged_in", False)
+		status = session.get("logged_in")
 		if not status:
 			return redirect(url_for("root"))
 		return f(*args, **kwargs)
@@ -72,7 +58,7 @@ def requires_login(f):
 def root():
 	# displays the 10 most recent posts ordered by id
 	db = get_db()
-	sql = "SELECT * FROM posts ORDER BY id ASC LIMIT 10;"
+	sql = "SELECT * FROM posts ORDER BY post_id ASC LIMIT 10;"
 	result = db.cursor().execute(sql)
 
 	return render_template("index.html", results=result)
@@ -81,21 +67,26 @@ def root():
 @app.route("/login/", methods=["POST", "GET"])
 def login():
 	# Page for users to login
-	session["logged_in"] = False
+	session["logged_in"] = None
 	if request.method == "POST":
 		# get user details
-		username = request.form["username"]
-		password = request.form["password"]
-		if "" in [username, password]:
-			# if any of the form is empty
+		if "" in [request.form["username"], request.form["password"]]:
+			# if any of the fields are empty
 			flash("Please fill in the required fields.")
 			return render_template("register.html")
-		check = check_login(username, password)
-		del username, password
+		
+		# try to check the login details of the user from the database
+		c = get_db().cursor()
+		sql = "SELECT * FROM users WHERE username = ?;"
+		c.execute(sql, (request.form["username"],))
+		result = c.fetchone()
+		c.close()
 
-		if check:
-			# if the check was successful
-			session["logged_in"] = True
+		if bcrypt.checkpw(
+				request.form["password"].encode("utf-8"),
+				result["password"].encode("utf-8")):
+			
+			session["logged_in"] = result["user_id"]
 			flash("Logged in successfully")
 			return redirect(url_for("root"))
 		else:
@@ -109,7 +100,7 @@ def login():
 @app.route("/logout/")
 def logout():
 	""" Logs the user out and sends them back to the homepage """
-	session["logged_in"] = False
+	session["logged_in"] = None
 	flash("You are now logged out.")
 	return redirect(url_for("root"))
 
@@ -166,7 +157,7 @@ def post_article():
 def all_articles(sort=""):
 	# displays all of the posts defaulting to sorting by time
 	
-	method = "id"  # sorting method
+	method = "post_id"  # sorting method
 	if sort.lower() == "title":
 		method = "title"
 	if sort.lower() == "author":

@@ -5,8 +5,8 @@ CREATE TABLE posts (
 	author_id  INTEGER,
 	content    TEXT,
 	posted     DATETIME DEFAULT CURRENT_TIMESTAMP,
-	votes_up   INTEGER,
-	votes_down INTEGER,
+	votes_up   INTEGER DEFAULT 0,
+	votes_down INTEGER DEFAULT 0,
 	FOREIGN KEY(author_id) REFERENCES users(id)
 );
 
