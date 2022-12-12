@@ -58,8 +58,9 @@ def requires_login(f):
 def root():
 	# displays the 10 most recent posts ordered by id
 	db = get_db()
-	sql = "SELECT * FROM posts ORDER BY post_id ASC LIMIT 10;"
+	sql = "SELECT * FROM view_posts ORDER BY post_id DESC LIMIT 10;"
 	result = db.cursor().execute(sql)
+	print(result)
 
 	return render_template("index.html", results=result)
 
@@ -136,12 +137,11 @@ def post_article():
 	if request.method == "POST":
 		form_title = request.form["title"]
 		form_content = request.form["content"]
-		form_author = request.form["author"]
 		
-		sql = "INSERT INTO posts (title, author, content) VALUES (?, ?, ?)"
+		sql = "INSERT INTO posts (title, author_id, content) VALUES (?, ?, ?)"
 		try:
 			db = get_db()
-			db.execute(sql, (form_title, form_content, form_author))
+			db.execute(sql, (form_title, session["logged_in"], form_content))
 			db.commit()
 			flash("Article successfully posted!")
 		except sqlite3.Error as e:
@@ -161,10 +161,10 @@ def all_articles(sort=""):
 	if sort.lower() == "title":
 		method = "title"
 	if sort.lower() == "author":
-		method = "author"
+		method = "display_name"
 	if sort.lower() == "score":
 		method = "score"
-	sql = "SELECT *, (votes_up - votes_down) AS score FROM posts ORDER BY {};".format(method)
+	sql = "SELECT *, (votes_up - votes_down) AS score FROM view_posts ORDER BY {};".format(method)
 	
 	db = get_db()
 	result = db.cursor().execute(sql)
